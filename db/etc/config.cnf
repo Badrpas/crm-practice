@@ -1,0 +1,4 @@
+[mysqld]
+log_error=/var/lib/mysql/logs/errorlog
+slow_query_log=on
+slow_query_log_file=/var/lib/mysql/logs/slowlog

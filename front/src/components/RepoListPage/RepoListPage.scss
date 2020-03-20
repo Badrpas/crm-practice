@@ -1,0 +1,26 @@
+.repos-page {
+  background-color: #3c4043;
+  width: 100%;
+  color: rgba(232, 230, 227, 0.87);
+
+  .add-repo-block {
+    position: fixed;
+    display: flex;
+    margin: 10px;
+    left: 0;
+    bottom: 0;
+
+    > form {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+
+      > * {
+        input {
+          color: rgba(232, 230, 227, 0.87);
+        }
+        margin: 4px;
+      }
+    }
+  }
+}

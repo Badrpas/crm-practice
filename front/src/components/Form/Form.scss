@@ -1,0 +1,27 @@
+.form-container {
+
+  display: flex;
+  justify-content: center;
+
+  form {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    margin: 2px;
+
+    > div, label, button {
+      margin: auto;
+    }
+
+    > div {
+      padding: 2px;
+      margin-top: 8px;
+    }
+
+    > div input {
+      min-width: 280px;
+    }
+
+  }
+
+}

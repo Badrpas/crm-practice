@@ -1,0 +1,28 @@
+.table-container {
+  background-color: #3c4043;
+
+  table {
+
+    tr {
+      &.is-loading {
+        th, th > a, button {
+          color: grey;
+          cursor: default;
+          &:hover {
+            text-underline: none;
+          }
+        }
+      }
+
+      th {
+        border-bottom-color: rgb(57, 57, 57);
+        color: rgba(232, 230, 227, 0.87);
+
+        a, button {
+          color: #94a4ff;
+        }
+      }
+    }
+
+  }
+}

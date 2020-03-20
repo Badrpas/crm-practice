@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: grey;
+}
+
+html, body, #root, .App {
+  height: 100%;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+}
