@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
+const config = require('config');
 const User = require('./models/user');
 const Repository = require('./models/repository');
 const Token = require('./models/token');
-const config = require('config');
 
 const initializeModels = (sequelize) => {
   return (...models) => {
@@ -49,11 +49,6 @@ exports.init = async () => {
 
   await sequelize.sync({
     force: true
-  });
-
-  await User.create({
-    email: 'q@q.com',
-    password: 'qwe'
   });
 
   console.log('DB initialized.');
