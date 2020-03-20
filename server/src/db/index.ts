@@ -12,6 +12,11 @@ const initializeModels = (sequelize) => {
   };
 };
 
+const sleep = time => new Promise(resolve => setTimeout(resolve, time));
+
+const SLEEP_TIME = 4000;
+let retryCount = 5;
+
 exports.init = async () => {
 
   const sequelize = new Sequelize(config.get('connectionString'), {
@@ -20,6 +25,20 @@ exports.init = async () => {
     }
   });
 
+  await (async function waitForConnection() {
+    try {
+      await sequelize.authenticate();
+    } catch (err) {
+      if (retryCount--) {
+        console.log('Error while initializing Sequelize. Retrying...');
+        await sleep(SLEEP_TIME);
+        return waitForConnection();
+      }
+
+      throw err;
+    }
+  })();
+  
   initializeModels(sequelize)
     (User, Token, Repository);
 
