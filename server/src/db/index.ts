@@ -44,7 +44,7 @@ exports.init = async () => {
 
   User.hasOne(Token);
   Token.belongsTo(User);
-  User.hasMany(Repository);
+  User.belongsToMany(Repository, { through: 'UserToRepo' });
   Repository.belongsToMany(User, { through: 'UserToRepo' });
 
   await sequelize.sync({

@@ -1,6 +1,14 @@
 'use strict';
 const User = require('../../db/models/user');
 const Token = require('../../db/models/token');
+const config = require('config');
+const bcrypt = require('bcrypt');
+const { promisify } = require('util');
+
+const hash = promisify(bcrypt.hash);
+const compare = promisify(bcrypt.compare);
+
+const SALT_ROUNDS = config.get('saltRounds') || 10;
 
 export const ERRORS = {
   USER_ALREADY_EXIST_ERROR: 'User already exists',
@@ -17,15 +25,15 @@ export async function createUser ({ email, password }) {
     throw new Error(ERRORS.USER_ALREADY_EXIST_ERROR);
   }
 
-  const user = await User.create({
+  const hashedPassword = await hash(password, SALT_ROUNDS);
+
+  return await User.create({
     email,
-    password,
+    password: hashedPassword,
     Token: {},
   }, {
     include: [Token]
   });
-
-  return user.getToken();
 }
 
 export async function authenticateUser ({ email, password }) {
@@ -37,7 +45,7 @@ export async function authenticateUser ({ email, password }) {
     throw new Error(ERRORS.NONEXISTENT_USER_ERROR);
   }
 
-  if (user.password !== password) {
+  if (!await compare(password, user.password)) {
     throw new Error(ERRORS.INCORRECT_PASSWORD_ERROR);
   }
 
@@ -45,7 +53,7 @@ export async function authenticateUser ({ email, password }) {
 }
 
 export async function getToken (id) {
-  const token = await Token.findOne(id);
-  debugger;
-  return token;
+  return await Token.findOne({
+    where: { id }
+  });
 }

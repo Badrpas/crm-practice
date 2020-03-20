@@ -5,8 +5,7 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
-  Button
+  TableBody
 } from '@material-ui/core';
 import './Table.scss';
 import { Refresh, Delete } from '@material-ui/icons'
@@ -44,7 +43,7 @@ export const Table = observer(({reposInProgress, repos = [], onUpdateClick, onRe
               <TableCell component="th">{repo.starCount}</TableCell>
               <TableCell component="th">{repo.forkCount}</TableCell>
               <TableCell component="th">{repo.issueCount}</TableCell>
-              <TableCell component="th">{repo.creationDate}</TableCell>
+              <TableCell component="th">{+new Date(repo.creationDate)}</TableCell>
               <TableCell component="th">
                 <Link component="button" onClick={() => onUpdateClick(repo)} disabled={repo.isLoading}>
                   <Refresh/>

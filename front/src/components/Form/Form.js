@@ -3,6 +3,7 @@ import { Button, FormLabel } from '@material-ui/core';
 import { observer, useObservable } from 'mobx-react-lite';
 import { FormInput } from '../FormInput';
 import './Form.scss';
+import Alert from '@material-ui/lab/Alert';
 
 const initialData = {
   email   : '',
@@ -49,6 +50,8 @@ export const Form = observer(
     <div className="form-container">
       <form onSubmit={handleSubmit} autoComplete="off">
         <FormLabel>{title}</FormLabel>
+
+        {!!errors.msg ? <Alert severity="error">{errors.msg}</Alert> : null}
 
         <Input name="email">Your Email</Input>
         <Input name="password" type="password">Your Password</Input>

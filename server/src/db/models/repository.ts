@@ -10,7 +10,7 @@ export = class Repository extends Model {
   starCount!  : number;
   forkCount!  : number;
   issueCount! : number;
-  creationDate!: Date;
+  creationDate!:number;
 
   getSanitized () {
     const {
@@ -32,9 +32,9 @@ export = class Repository extends Model {
       ownerName  : DataTypes.STRING(256),
       projectName: DataTypes.STRING(256),
       url        : DataTypes.STRING(256),
-      starCount  : DataTypes.INTEGER.UNSIGNED,
-      forkCount  : DataTypes.INTEGER.UNSIGNED,
-      issueCount : DataTypes.INTEGER.UNSIGNED,
+      starCount  : DataTypes.INTEGER,
+      forkCount  : DataTypes.INTEGER,
+      issueCount : DataTypes.INTEGER,
       creationDate: DataTypes.DATE
     }, {
       sequelize

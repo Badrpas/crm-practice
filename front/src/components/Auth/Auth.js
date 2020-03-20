@@ -9,8 +9,11 @@ const getCaption = isRegistration => isRegistration ? 'Register' : 'Login';
 
 export const Auth = ({onLogin}) => {
   const [isRegistration, setRegistration] = useState(false);
-  const switchState = () => setRegistration(!isRegistration);
   const [errors, setErrors] = useState({});
+  const switchState = () => {
+    setRegistration(!isRegistration);
+    setErrors({});
+  };
 
   const validate = useCallback(async function validate (data) {
     const schema = isRegistration ? registerSchema : loginSchema;
@@ -25,34 +28,32 @@ export const Auth = ({onLogin}) => {
     }
   }, [isRegistration]);
 
+  const handleError = useCallback(err => {
+    let msg = 'Something sent wrong.';
+    if (err.isAxiosError) {
+      msg = err.response.data.message;
+    }
+    setErrors({ msg });
+    console.log('err while loggin in:', err);
+  }, [setErrors]);
+
   const onSubmit = useCallback(async (data) => {
     if (!await validate(data)) {
       return;
     }
 
     const { email, password } = data;
-    if (isRegistration) {
-      try {
-        const res = await registerUser({ email, password })
-        if (res.status === 201) {
-          console.log('user created - do other stuff');
-          onLogin();
-        }
-      } catch (err) {
-        console.log('err on user registration');
+    const authorize = isRegistration ? registerUser : loginUser;
+    try {
+      const res = await authorize({ email, password });
+      if (res.status >= 200) {
+        console.log('logged in as', email);
+        onLogin(res.data);
       }
-    } else {
-      try {
-        const res = await loginUser({ email, password });
-        if (res.status === 200) {
-          console.log('logged in');
-          onLogin();
-        }
-      } catch (err) {
-        console.log('err while loggin in:', err);
-      }
+    } catch (err) {
+      handleError(err);
     }
-  }, [isRegistration, validate, onLogin]);
+  }, [isRegistration, validate, onLogin, handleError]);
 
   return (
     <div className="auth-card-container">

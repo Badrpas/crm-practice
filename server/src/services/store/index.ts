@@ -1,5 +1,4 @@
 import { IRepositoryInfo } from '../github';
-
 export {};
 const Repository = require('../../db/models/repository');
 
@@ -35,6 +34,7 @@ export const saveRepo = async (repoInfo: IRepositoryInfo) => {
 
   return Repository.create(value);
 };
+
 export const deleteRepoFromUser = async (user, repoId, options) => {
   const repo = await this.getUserRepositories(user, {
     where: { id: repoId }

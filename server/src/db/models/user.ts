@@ -20,7 +20,7 @@ module.exports = class User extends Model {
         validate: { isEmail: true }
       },
       password: {
-        type: DataTypes.STRING(256),
+        type: DataTypes.STRING(60),
         allowNull: false,
       }
     }, {

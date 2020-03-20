@@ -33,8 +33,11 @@ router.post('/login', async (req, res) => {
 router.post('/register', async (req, res) => {
   const { services } = req;
   try {
-    await services.auth.createUser(req.body);
-    res.status(201).send();
+    const user = await services.auth.createUser(req.body);
+    const token = await user.getToken();
+    const { id: tokenId, validUntil } = token;
+
+    res.status(201).json({ tokenId, validUntil });
   } catch (err) {
     if (err.message === services.auth.ERRORS.USER_ALREADY_EXIST_ERROR) {
       return res.status(409).json({
