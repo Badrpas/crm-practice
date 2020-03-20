@@ -1,4 +1,5 @@
 {
+  "port": 4000,
   "tokenExpireTime": 180,
   "connectionString": "mariadb://q:q@localhost:3309/crm"
 }

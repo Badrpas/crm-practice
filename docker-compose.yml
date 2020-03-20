@@ -17,14 +17,26 @@ services:
       - ./db/logs:/var/lib/mysql/logs
 
   front:
+    image: front
     build:
       context: ./front
       dockerfile: ./Dockerfile
 
+  backend:
+    image: backend
+    build:
+      context: ./server
+    environment:
+      NODE_CONFIG: '{"connectionString":"mariadb://q:q@db/crm"}'
+
   nginx:
     depends_on:
       - front
+      - backend
     build:
       context: ./nginx
+    ports:
+      - 3080:80
     volumes:
     - ./nginx/logs:/var/log/nginx
+    - ./nginx/conf:/etc/nginx/conf.d/

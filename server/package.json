@@ -7,8 +7,6 @@
   },
   "scripts": {
     "start": "node -r ts-node/register src/index.ts",
-    "dev": "ts-node-dev src/index.ts --notify=false",
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Vadim Samarin",
   "license": "MIT",
