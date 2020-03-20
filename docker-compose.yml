@@ -3,18 +3,12 @@ version: '3.3'
 services:
 
   db:
-    image: mariadb
-    command: --init-file /init/user-init.sql
-    ports:
-      - 3309:3306
+    image: postgres
+    restart: always
     environment:
-      MYSQL_USER: q
-      MYSQL_PASSWORD: q
-      MYSQL_ROOT_PASSWORD: test
-    volumes:
-      - ./db/user-init.sql:/init/user-init.sql
-      - ./db/etc:/etc/mysql/conf.d
-      - ./db/logs:/var/lib/mysql/logs
+      POSTGRES_USER: q
+      POSTGRES_PASSWORD: q
+      POSTGRES_DB: crm
 
   front:
     image: front
@@ -26,15 +20,18 @@ services:
     image: backend
     build:
       context: ./server
+    restart: always
     environment:
-      NODE_CONFIG: '{"connectionString":"mariadb://q:q@db/crm"}'
+      NODE_CONFIG: '{"connectionString":"postgres://q:q@db/crm"}'
 
   nginx:
     depends_on:
       - front
       - backend
+      - db
     build:
       context: ./nginx
+    restart: always
     ports:
       - 3080:80
     volumes:

@@ -1,3 +1,4 @@
+export {};
 const config = require('config');
 const initServer = require('./http').init;
 const initDb = require('./db').init;
