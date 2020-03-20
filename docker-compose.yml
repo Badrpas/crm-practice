@@ -20,6 +20,8 @@ services:
     image: backend
     build:
       context: ./server
+    depends_on:
+      - db
     restart: always
     environment:
       NODE_CONFIG: '{"connectionString":"postgres://q:q@db/crm"}'
@@ -28,7 +30,6 @@ services:
     depends_on:
       - front
       - backend
-      - db
     build:
       context: ./nginx
     restart: always
